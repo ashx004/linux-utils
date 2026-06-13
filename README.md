@@ -5,4 +5,3 @@
 * mkdir
 * cat 
 * wc
-    * bit of a bug with `wc`, but for the most part works 
