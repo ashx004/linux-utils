@@ -16,7 +16,7 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    // largest buffer available on windows
+    // largest buffer available on linux
     char buffer[4096];
 
     while (fgets(buffer, sizeof(buffer), fptr) != NULL) {
