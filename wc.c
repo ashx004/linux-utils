@@ -7,20 +7,19 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    int line_count, // increments when we read an newline character
-        word_count, // increments when we read a whitespace character 
-        byte_count  // increments when we read a character
-        = 0;
-
     int total_line_count,
         total_word_count,
         total_byte_count
         = 0;
 
-    // TODO: fix word_count to be accurate
     for (int i = 1; i < argc; i++) {
-      FILE *fptr;
+      int line_count, // increment when a newline character is read
+          word_count, // increment when we have exited a word
+          byte_count, // increment when we read a character
+          in_word     // toggle to see if we are in a word or not 
+          = 0;
 
+      FILE *fptr;
       fptr = fopen(argv[i], "r");
       if (fptr == NULL) {
         perror("Error opening file\n");
@@ -33,9 +32,15 @@ int main(int argc, char *argv[]) {
         if (ch == '\n') {
           line_count++;
         }
-        if (ch == ' ') {
+
+        if (ch == ' ' || ch == '\n' || ch == '\t') {
+          in_word = 0;
+        }
+        else if (!in_word) {
+          in_word = 1;
           word_count++;
         }
+
         byte_count++;
       }
 
@@ -45,6 +50,7 @@ int main(int argc, char *argv[]) {
       printf("%d %d %d %s\n", line_count, word_count, byte_count, argv[i]);
     }
 
+    // print count for all files passed in
     if (argc > 2) {
       printf("%d %d %d total\n", total_line_count, total_word_count, total_byte_count);
     }
